@@ -1,6 +1,8 @@
-import {Company, Status} from "./company.entity";
+import {Company} from "./company.entity";
 import {CompanyType} from "../value-objects/company-type.vo";
 import {DomainException} from "../exceptions/domain.exception";
+import {StatusType} from "../value-objects/status-type.vo";
+import {LocationId} from "../value-objects/location-id.vo";
 
 export class Pyme extends Company {
     private readonly MAX_EMPLOYEES = 50;
@@ -11,12 +13,11 @@ export class Pyme extends Company {
         taxId: string,
         email: string,
         phone: string,
-        status: Status,
         address: string,
-        locationId: string,
+        locationId: LocationId,
         public readonly employeesCount: number
     ) {
-        super(id, name, taxId, email, phone, CompanyType.PYME, status, address, locationId);
+        super(id, name, taxId, email, phone, address, locationId, CompanyType.PYME, StatusType.PENDING);
     }
 
     validateAdhesion(): void {
