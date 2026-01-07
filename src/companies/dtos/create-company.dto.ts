@@ -1,14 +1,33 @@
 import {LocationId} from "../domain/value-objects/location-id.vo";
-import {CompanyType} from "../domain/value-objects/company-type.vo";
+import {IsEmail, IsNumber, IsOptional, IsString} from "class-validator";
 
 export class CreateCompanyDto {
+    @IsString()
     name: string;
+
+    @IsString()
     taxId: string;
+
+    @IsEmail()
     email: string;
+
+    @IsString()
     phone: string;
+
+    @IsString()
     address: string;
+
+    @IsString()
     locationId: LocationId;
-    type: CompanyType;
+
+    @IsString()
+    type: string;
+
+    @IsNumber()
+    @IsOptional()
     employeesCount?: number;
+
+    @IsNumber()
+    @IsOptional()
     capital?: number;
 }
