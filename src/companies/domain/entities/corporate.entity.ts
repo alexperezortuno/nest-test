@@ -1,6 +1,8 @@
-import {Company, Status} from "./company.entity";
+import {Company} from "./company.entity";
 import {CompanyType} from "../value-objects/company-type.vo";
 import {DomainException} from "../exceptions/domain.exception";
+import {StatusType} from "../value-objects/status-type.vo";
+import {LocationId} from "../value-objects/location-id.vo";
 
 export class Corporate extends Company {
     private readonly MIN_CAPITAL = 1000000;
@@ -11,12 +13,11 @@ export class Corporate extends Company {
         taxId: string,
         email: string,
         phone: string,
-        status: Status,
         address: string,
-        locationId: string,
+        locationId: LocationId,
         public readonly capital: number
     ) {
-        super(id, name, taxId, email, phone, CompanyType.CORPORATE, status, address, locationId);
+        super(id, name, taxId, email, phone, address, locationId, CompanyType.CORPORATE, StatusType.APPROVED);
     }
 
     validateAdhesion(): void {
