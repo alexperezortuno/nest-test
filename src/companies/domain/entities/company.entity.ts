@@ -1,6 +1,7 @@
 import {CompanyType} from "../value-objects/company-type.vo";
+import {StatusType} from "../value-objects/status-type.vo";
+import {LocationId} from "../value-objects/location-id.vo";
 
-export type Status = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 export abstract class Company {
     constructor(
@@ -9,10 +10,10 @@ export abstract class Company {
         public readonly taxId: string,
         public readonly email: string,
         public readonly phone: string,
-        public readonly type: CompanyType,
-        public status: Status,
         public readonly Address: string,
-        public readonly locationId: string
+        public readonly locationId: LocationId,
+        public readonly type: CompanyType,
+        public status?: StatusType
     ) {}
 
     abstract validateAdhesion(): void;
