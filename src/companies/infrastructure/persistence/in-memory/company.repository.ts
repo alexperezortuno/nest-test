@@ -7,8 +7,14 @@ import {CompanyRepositoryPort} from "../../../domain/ports/company.repository.po
 export class InMemoryCompanyRepository implements CompanyRepositoryPort {
     private companies: Map<string, Company> = new Map();
 
-    findByTaxId(taxId: string): Promise<Company | null> {
-        throw new Error("Method not implemented.");
+    async findByTaxId(taxId: string): Promise<Company | null> {
+        const normalized = taxId.replace(/\D/g, "");
+        for (const company of this.companies.values()) {
+            if ((company.taxId ?? "").replace(/\D/g, "") === normalized) {
+                return company;
+            }
+        }
+        return null;
     }
 
     findByIds(ids: string[]): Promise<Company[]> {
