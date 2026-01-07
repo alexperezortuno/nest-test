@@ -4,6 +4,8 @@ import {DomainException} from "../exceptions/domain.exception";
 import {StatusType} from "../value-objects/status-type.vo";
 import {LocationId} from "../value-objects/location-id.vo";
 
+
+
 export class Corporate extends Company {
     private readonly MIN_CAPITAL = 1000000;
 
