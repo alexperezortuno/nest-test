@@ -3,12 +3,15 @@ import {Injectable} from "@nestjs/common";
 import {CompanyRepositoryPort} from "../../../domain/ports/company.repository.port";
 import {Pyme} from "../../../domain/entities/pyme.entity";
 import {Corporate} from "../../../domain/entities/corporate.entity";
-import {response} from "express";
 
 
 @Injectable()
 export class InMemoryCompanyRepository implements CompanyRepositoryPort {
     private companies: Map<string, Company> = new Map();
+
+    async create(company: Corporate | Pyme): Promise<void> {
+        this.companies.set(company.id, company);
+    }
 
     async findByTaxId(taxId: string): Promise<Company | null> {
         for (const company of this.companies.values()) {
@@ -19,8 +22,8 @@ export class InMemoryCompanyRepository implements CompanyRepositoryPort {
         return null;
     }
 
-    async create(company: Company): Promise<void> {
-        this.companies.set(company.id, company);
+    async findByTaxIds(taxIds: string[]): Promise<Company[]> {
+        return Array.from(this.companies.values()).filter(company => taxIds.includes(company.taxId));
     }
 
     async findAllPymes(): Promise<Pyme[]> {
@@ -31,12 +34,11 @@ export class InMemoryCompanyRepository implements CompanyRepositoryPort {
         return Array.from(this.companies.values()).filter(company => company instanceof Corporate);
     }
 
-    async delete(taxId: string): Promise<boolean> {
-        let c: Company = Array.from(this.companies.values()).find(
+    async exists(taxId: string): Promise<boolean> {
+        if (!taxId) return false;
+        return Array.from(this.companies.values()).some(
             company => company.taxId === taxId
         );
-        this.companies.delete(c.id);
-        return true;
     }
 
     async update(company: Corporate | Pyme): Promise<Corporate | Pyme> {
@@ -44,10 +46,11 @@ export class InMemoryCompanyRepository implements CompanyRepositoryPort {
         return company;
     }
 
-    async exists(taxId: string): Promise<boolean> {
-        if (!taxId) return false;
-        return Array.from(this.companies.values()).some(
+    async delete(taxId: string): Promise<boolean> {
+        let c: Company = Array.from(this.companies.values()).find(
             company => company.taxId === taxId
         );
+        this.companies.delete(c.id);
+        return true;
     }
 }
