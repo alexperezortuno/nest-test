@@ -6,7 +6,7 @@ async function bootstrap() {
     const logLevels: LogLevel[] = process.env.LOG_LEVELS
         ? (process.env.LOG_LEVELS.split(',') as LogLevel[])
         : ['log', 'error', 'warn'];
-    const port: number = Number(process.env.PORT) || 3000;
+    const port: number = Number(process.env.PORT) || 8080;
     const host: string = process.env.HOST || '0.0.0.0';
     const app: INestApplication = await NestFactory.create(AppModule, {
         logger: logLevels,
