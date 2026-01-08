@@ -3,12 +3,12 @@ import {TransferRepositoryPort} from "../../../domain/ports/transfer.repository.
 
 export class InMemoryTransferRepository implements TransferRepositoryPort {
     private transfers: Transfer[] = [
-        new Transfer('transfer_id-1', '1', 1000, daysAgo(10)),
-        new Transfer('transfer_id-2', '1', 2000, daysAgo(5)),
-        new Transfer('transfer_id-3', '1', 3000, daysAgo(40)),
-        new Transfer('transfer_id-4', '2', 4000, daysAgo(1)),
-        new Transfer('transfer_id-5', '2', 5000, daysAgo(2)),
-        new Transfer('transfer_id-6', '2', 6000, daysAgo(3)),
+        new Transfer('transfer_id-1', 'TAX-PYME-001', 1000, daysAgo(10)),
+        new Transfer('transfer_id-2', 'TAX-PYME-001', 2000, daysAgo(5)),
+        new Transfer('transfer_id-3', 'TAX-PYME-001', 3000, daysAgo(40)),
+        new Transfer('transfer_id-4', 'TAX-CORP-001', 4000, daysAgo(1)),
+        new Transfer('transfer_id-5', 'TAX-CORP-001', 5000, daysAgo(2)),
+        new Transfer('transfer_id-6', 'TAX-CORP-001', 6000, daysAgo(3)),
     ];
 
     async findCompanyIdsWithTransfersSince(date: Date): Promise<string[]> {
