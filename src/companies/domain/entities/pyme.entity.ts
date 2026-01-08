@@ -15,9 +15,11 @@ export class Pyme extends Company {
         phone: string,
         address: string,
         locationId: LocationId,
-        public readonly employeesCount: number
+        public readonly employeesCount: number,
+        status?: StatusType
     ) {
-        super(id, name, taxId, email, phone, address, locationId, CompanyType.PYME, StatusType.PENDING);
+        if (!status) status = StatusType.PENDING;
+        super(id, name, taxId, email, phone, address, locationId, CompanyType.PYME, status);
     }
 
     validateAdhesion(): void {
