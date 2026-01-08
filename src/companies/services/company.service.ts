@@ -7,16 +7,21 @@ import {randomUUID} from "node:crypto";
 import {HttpException, HttpStatus} from "@nestjs/common";
 import {DefaultResponseDto} from "../../shared/utils/dtos/default-response.dto";
 import {LocationId} from "../domain/value-objects/location-id.vo";
+import {ResponseCompanyDto} from "../dtos/response-company.dto";
+import {TransferRepositoryPort} from "../domain/ports/transfer.repository.port";
+import {InMemoryTransferRepository} from "../infrastructure/persistence/in-memory/transfer.repository";
 
 export class CompanyService {
     constructor(
-        private readonly companyRepository: CompanyRepositoryPort
+        private readonly companyRepository: CompanyRepositoryPort,
+        private readonly transferRepository: TransferRepositoryPort,
     ) {
         // Only for testing purposes
         this.companyRepository = new InMemoryCompanyRepository();
+        this.transferRepository = new InMemoryTransferRepository();
     }
 
-    async create(dto: CreateCompanyDto): Promise<Corporate | Pyme | HttpException> {
+    async create(dto: CreateCompanyDto): Promise<ResponseCompanyDto | HttpException> {
         if (!Object.values(LocationId).includes(dto.locationId as LocationId)) {
             throw new HttpException('Invalid location ID', HttpStatus.BAD_REQUEST);
         }
@@ -55,7 +60,7 @@ export class CompanyService {
 
         await this.companyRepository.create(company);
 
-        return company;
+        return new ResponseCompanyDto(company);
     }
 
     async findAllPyme(): Promise<Pyme[] | HttpException> {
@@ -87,5 +92,29 @@ export class CompanyService {
             .catch(() => {
                 throw new HttpException('Company not found', HttpStatus.NOT_FOUND);
             });
+    }
+
+    async getCompaniesWithTransfersLastMonth(days = 30) {
+        const since = new Date();
+        since.setDate(since.getDate() - days);
+
+        const companyIds =
+            await this.transferRepository.findCompanyIdsWithTransfersSince(since);
+
+        const companies =
+            await this.companyRepository.findByTaxIds(companyIds);
+
+        return {
+            from: since.toISOString().slice(0, 10),
+            to: new Date().toISOString().slice(0, 10),
+            count: companies.length,
+            companies: companies.map(c => ({
+                id: c.id,
+                name: c.name,
+                taxId: c.taxId,
+                type: c.type,
+                status: c.status,
+            })),
+        };
     }
 }
