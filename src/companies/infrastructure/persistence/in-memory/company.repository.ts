@@ -3,11 +3,39 @@ import {Injectable} from "@nestjs/common";
 import {CompanyRepositoryPort} from "../../../domain/ports/company.repository.port";
 import {Pyme} from "../../../domain/entities/pyme.entity";
 import {Corporate} from "../../../domain/entities/corporate.entity";
+import {LocationId} from "../../../domain/value-objects/location-id.vo";
 
 
 @Injectable()
 export class InMemoryCompanyRepository implements CompanyRepositoryPort {
     private companies: Map<string, Company> = new Map();
+
+    constructor() {
+        const pyme = new Pyme(
+            'pyme-1',
+            'Pyme Ejemplo S.R.L.',
+            'TAX-PYME-001',
+            'pyme@example.com',
+            '123456789',
+            'Avenida 1',
+            LocationId.ARGENTINA,
+            20
+        );
+
+        const corporate = new Corporate(
+            'corp-1',
+            'Corporate Ejemplo C.A.',
+            'TAX-CORP-001',
+            'corp@example.com',
+            '123456789',
+            'Avenida 2',
+            LocationId.CHILE,
+            1000000
+        )
+
+        this.companies.set(pyme.id, pyme);
+        this.companies.set(corporate.id, corporate);
+    }
 
     async create(company: Corporate | Pyme): Promise<void> {
         this.companies.set(company.id, company);
