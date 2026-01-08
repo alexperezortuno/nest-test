@@ -1,12 +1,12 @@
 # nest-test
 
-Overview
+### Overview
 
 This project implements a REST API using NestJS and TypeScript, designed to manage company adhesions and retrieve companies that performed transfers within the last month.
 
 The solution focuses on clean design, object-oriented programming, and clear separation of concerns, following a layered architecture inspired by Hexagonal Architecture.
 
-Architecture & Design
+### Architecture & Design
 
 The project is structured following a layered approach:
 
@@ -43,12 +43,18 @@ No external databases or storage systems are required to run the application.
 This approach was chosen to simplify execution and evaluation, while keeping the persistence
 layer abstracted and easily replaceable in a real-world scenario.
 
+### WIKI
+
+for more information about the project, please visit:
+[https://deepwiki.com/alexperezortuno/nest-test](https://deepwiki.com/alexperezortuno/nest-test)
+
+
 ### Requirements
 
-- Node.js >= 22.19.0
+- Node.js >= 20.0.0
 - npm (>= 9)
 
-## Installation dependencies
+### Installation dependencies
 
 ```bash
 npm install
@@ -64,7 +70,7 @@ npm run start:dev
 
 ---
 
-Testing
+### Testing
 
 All tests are located in the /test directory and focus on application services and domain behavior, independently of the NestJS framework.
 
