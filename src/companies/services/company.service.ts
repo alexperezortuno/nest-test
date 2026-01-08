@@ -6,6 +6,7 @@ import {InMemoryCompanyRepository} from "../infrastructure/persistence/in-memory
 import {randomUUID} from "node:crypto";
 import {HttpException, HttpStatus} from "@nestjs/common";
 import {DefaultResponseDto} from "../../shared/utils/dtos/default-response.dto";
+import {LocationId} from "../domain/value-objects/location-id.vo";
 
 export class CompanyService {
     constructor(
@@ -16,7 +17,12 @@ export class CompanyService {
     }
 
     async create(dto: CreateCompanyDto): Promise<Corporate | Pyme | HttpException> {
+        if (!Object.values(LocationId).includes(dto.locationId as LocationId)) {
+            throw new HttpException('Invalid location ID', HttpStatus.BAD_REQUEST);
+        }
+
         const taxId: string = dto.taxId.replace(/\D/g, '');
+        const locationId = dto.locationId as LocationId;
 
         if (await this.companyRepository.findByTaxId(taxId)) {
             throw new HttpException('Tax ID already exists', HttpStatus.CONFLICT);
@@ -30,7 +36,7 @@ export class CompanyService {
             dto.email,
             dto.phone,
             dto.address,
-            dto.locationId,
+            locationId,
             dto.employeesCount
         );
 
@@ -42,7 +48,7 @@ export class CompanyService {
                 dto.email,
                 dto.phone,
                 dto.address,
-                dto.locationId,
+                locationId,
                 dto.capital
             )
         }
