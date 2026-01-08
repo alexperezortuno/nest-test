@@ -152,6 +152,15 @@ docker build -t nest-test:local .
 docker run --rm -p 8080:8080 nest-test:local
 ```
 
+### Persistence (Challenge Scope)
+
+For the scope of this technical test, persistence is implemented using in-memory repositories only.
+No external databases or storage systems are required to run the application.
+
+This approach was chosen to simplify execution and evaluation, while keeping the persistence
+layer abstracted and easily replaceable in a real-world scenario.
+
+
 ### Final Notes
 
 This solution prioritizes:
