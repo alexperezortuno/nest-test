@@ -24,7 +24,7 @@ src/
 
 ```
 
-Architectural Principles
+### Architectural Principles
 
 - Domain-driven design: Business rules live in domain entities and value objects.
 - Hexagonal-inspired architecture:
@@ -35,9 +35,18 @@ Architectural Principles
   - Domain Value Objects (e.g. LocationId) are created inside application services.
 
 
-## Requirements
+### Persistence (Challenge Scope)
+
+For the scope of this technical test, persistence is implemented using in-memory repositories only.
+No external databases or storage systems are required to run the application.
+
+This approach was chosen to simplify execution and evaluation, while keeping the persistence
+layer abstracted and easily replaceable in a real-world scenario.
+
+### Requirements
 
 - Node.js >= 22.19.0
+- npm (>= 9)
 
 ## Installation dependencies
 
@@ -47,27 +56,13 @@ npm install
 
 ---
 
-## Compile and run the project
-
-### development
-
-```bash
-npm run start
-```
-
-### watch mode
+### Run development
 
 ```bash
 npm run start:dev
 ```
 
 ---
-
-### production mode
-
-```bash
-npm run start:prod
-```
 
 Testing
 
@@ -151,15 +146,6 @@ docker build -t nest-test:local .
 ```bash
 docker run --rm -p 8080:8080 nest-test:local
 ```
-
-### Persistence (Challenge Scope)
-
-For the scope of this technical test, persistence is implemented using in-memory repositories only.
-No external databases or storage systems are required to run the application.
-
-This approach was chosen to simplify execution and evaluation, while keeping the persistence
-layer abstracted and easily replaceable in a real-world scenario.
-
 
 ### Final Notes
 
