@@ -17,9 +17,11 @@ export class Corporate extends Company {
         phone: string,
         address: string,
         locationId: LocationId,
-        public readonly capital: number
+        public readonly capital: number,
+        status?: StatusType
     ) {
-        super(id, name, taxId, email, phone, address, locationId, CompanyType.CORPORATE, StatusType.APPROVED);
+        if (!status) status = StatusType.APPROVED;
+        super(id, name, taxId, email, phone, address, locationId, CompanyType.CORPORATE, status);
     }
 
     validateAdhesion(): void {
