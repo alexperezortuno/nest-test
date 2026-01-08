@@ -1,7 +1,6 @@
 import {Body, Controller, Delete, Get, HttpException, Param, Post} from "@nestjs/common";
 import {CreateCompanyDto} from "../../dtos/create-company.dto";
 import {CompanyService} from "../../services/company.service";
-import {Company} from "../../domain/entities/company.entity";
 import {Corporate} from "../../domain/entities/corporate.entity";
 import {Pyme} from "../../domain/entities/pyme.entity";
 import {DefaultResponseDto} from "../../../shared/utils/dtos/default-response.dto";
